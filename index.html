@@ -65,31 +65,24 @@
 </head>
 
 <body class="bg-slate-100 relative">
-    <div class="fixed p-4 bg-white left-0 top-0 h-screen w-[250px] flex flex-col">
+    <div class="fixed p-4 overflow-y-auto scroll-smooth bg-white left-0 top-0 h-screen w-[250px] flex flex-col">
         <div class="flex flex-col gap-3">
             <div class="flex  items-center justify-center">
                 <i class="fa-solid text-[#16423C] fa-bookmark text-[25px]"></i>
                 <h1 class="text-nowrap text-[#393E46] text-[19px]">Bookmark Manager</h1>
             </div>
             <div class="sect-1 flex mt-4 flex-col gap-2 text-[#444941]">
-                <div class="flex gap-1 p-1 rounded-md bg-[#ECF4F3] items-center text-[18px] cursor-pointer"><i
+                <div class="flex gap-1 p-1 rounded-md bg-[#ccdedc] items-center text-[18px] cursor-pointer" data-active="true" id="loadUnArchivedItem"><i
                         class="fa-solid fa-house"></i><span>Home</span></div>
-                <div class="flex gap-1 p-1 items-center text-[18px] cursor-pointer"><i
-                        class="fa-solid fa-box-archive"></i><span>Archived</span></div>
+                <div class="flex gap-1 p-1 items-center text-[18px] cursor-pointer" data-active="false" id="loadArchivedItem" ><i
+                    class="fa-solid fa-box-archive"></i><span>Archived</span></div>
             </div>
         </div>
 
         <div class="flex flex-col gap-2 flex-1 mt-4">
             <h1 class="text-2xl text-[#1f2227] font-bold">Tags</h1>
-            <div class="flex flex-col gap-2">
-                <label for="ai" class="flex cursor-pointer justify-between items-center">
-                    <div class="flex gap-2 items-center justify-center text-[17px]"><input type="checkbox"
-                            class="w-[17px] h-[17px] text-[#444941]" name="ai" id="ai"><label for="ai">AI</label></div>
-                    <div
-                        class="bg-[#8C999A] text-[#F5F5F5] font-bold w-[20px] rounded-full flex justify-center p-2 items-center h-[20px]">
-                        <span class="text-[12px]">20</span>
-                    </div>
-                </label>
+            <div id="checkbox_tags" class="flex flex-col gap-2">
+               
 
             </div>
         </div>
@@ -112,46 +105,41 @@
     </div>
     <div class="ml-[250px] p-4" data-page="home">
         <div class="header flex items-center mx-5 justify-between">
-            <h1 class="text-[20px]">All Bookmarks</h1>
+            <h1 class="text-[20px]" id="ts">All Bookmarks</h1>
             <div id="sort"
                 class="flex items-center justify-center gap-1 border-[2px] cursor-pointer relative border-[#31363F] max-w-max p-2 rounded-xl">
                 <i class="fa-solid fa-up-down"></i>
                 <h1>Sort by</h1>
                 <div id="sortMethod" class="space-y-1 absolute hidden flex-col  top-[110%]">
-                    <div class="flex gap-1 items-center justify-start text-nowrap"><i
-                            class="fa-solid fa-arrow-down-a-z"></i>
-                        <h1>A - Z</h1>
+                
+                    <div class="flex gap-1 items-center justify-start text-nowrap" onclick="recentlyAdded()"><i class="fa-solid fa-file-circle-plus"></i>
+                        <h1>Recently added</h1>
                     </div>
-                    <div class="flex gap-1 items-center justify-start text-nowrap"><i
-                            class="fa-solid fa-arrow-down-z-a"></i>
-                        <h1>Z - A</h1>
+                    <div class="flex gap-1 items-center justify-start text-nowrap" onclick="recentlyVisited()"><i class="fa-solid fa-clock-rotate-left"></i>
+                        <h1>Recently visited</h1>
                     </div>
-                    <div class="flex gap-1 items-center justify-start text-nowrap"><i
-                            class="fa-regular fa-calendar"></i>
-                        <h1>sort by Date</h1>
+                    <div class="flex gap-1 items-center justify-start text-nowrap" onclick="mostVisited();"><i class="fa-solid fa-chart-line"></i>
+                        <h1>Most visited</h1>
                     </div>
                 </div>
             </div>
         </div>
-       <div id="book_container" class="flex gap-4 flex-wrap shrink-0">
-            <p class="text-center inline-block m-auto text-2xl text-gray-400">No bookmark is saved</p>
+       <div id="book_container" class="flex gap-20 justify-evenly flex-wrap shrink-0">
+           
        </div>        
     </div>
 
-    <div id="aiForm" class="absolute hidden justify-center items-center z-20 inset-0 bg-[#000000af] backdrop-blur-sm">
+    <div id="aiForm" class="fixed hidden justify-center items-center z-20 inset-0 bg-[#000000af] backdrop-blur-sm">
             <form id="orgForm" class="flex flex-col gap-4 max-w-[320px] w-[100%]">
-                <input type="text" placeholder="Input website link"
+                <input type="text" placeholder="Input website link and hit enter"
                     class="border-2 indent-1 border-solid px-4 text-[white] py-1 text-[14px] placeholder-[white] focus:outline-[#c1ded3] rounded-xl border-[#E0E0E0]"
                     name="link" id="link">
                 <textarea name="aiInput" placeholder="Description" class="resize-none h-[6lh] box-border border-2  border-solid px-4 text-[white] py-1 text-[14px] placeholder-[white] focus:outline-[#c1ded3] rounded-xl border-[#E0E0E0]" id="aiInput"></textarea>
-                <div class="tag flex flex-wrap shrink-0 gap-2 p-3 rounded-xl bg-[#d0d4db29]" id="tag">
-                    <span class="inline-block px-4 py-[2px] text-center rounded-md text-white bg-[#3F7B70]">learning</span>
-                    <span class="inline-block px-4 py-[2px] text-center rounded-md text-white bg-[#3F7B70]">learning</span>
-                    <span class="inline-block px-4 py-[2px] text-center rounded-md text-white bg-[#3F7B70]">learning</span>
-                </div>
-                 <input type="text" placeholder="Hit Enter to add tags"
+                <div class="tag flex flex-wrap shrink-0 gap-2 p-3 rounded-xl bg-[#d0d4db29]" id="tag"></div>
+                 <input type="text" id="tagInputer" placeholder="Hit Enter to add tags"
                     class="border-2 indent-1 border-solid px-4 text-[white] py-1 text-[14px] placeholder-[white] focus:outline-[#c1ded3] rounded-xl border-[#E0E0E0]"
                     name="tags_id" id="tags_id">
+
                 <div class="flex shrink-0 gap-3 justify-end">
                     <a href="#" id="tagsInput" class="cancel inline-block px-4 py-[2px] text-center rounded-md text-white bg-[#3F7B70]">Cancel</a>
                     <a href="#" onclick="saveData()" class="inline-block px-4 py-[2px] text-center rounded-md text-white bg-[#3F7B70]">Save</a>
