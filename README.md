@@ -1,0 +1,1 @@
+It is a bookmarking manager that lets users save links by getting the link data through an api, organize them with tags, sort them, filter them, track visit counts, search through title archive them, and quickly find what they saved.

@@ -10,8 +10,11 @@ let tag = document.getElementById("tag");
 let tagChildren = tag.querySelectorAll("span");
 let orginalForm = document.getElementById("orgForm");
 let tagInput = document.getElementById("tagInputer");
+let renderByTitle = document.getElementById("renderByTitle");
 const archivedBtn = document.getElementById("loadArchivedItem");
 const unArchivedBtn = document.getElementById("loadUnArchivedItem");
+let menu = document.getElementById("toggle_sidebar");
+let menu_items = document.getElementById("menu_items");
 let filterSearch = []
 let feedingData;
 let filtered = [];
@@ -31,6 +34,16 @@ let data = () => {
   bookmark = JSON.parse(localStorage.getItem("bookmark"));
 };
 
+menu.addEventListener("click", () => {
+  menu_items.classList.remove("left-[-100%]")
+})
+
+menu_items.addEventListener("click", (e) => {
+  if(e.target != menu_items){
+      menu_items.classList.add("left-[-100%]")
+  }
+})
+
 // renderData(bookmark);
 // for all event listener buttons
 sortBtn.addEventListener("click", () => {
@@ -42,6 +55,16 @@ sortBtn.addEventListener("click", () => {
     sortList.classList.remove("flex");
   }
 });
+
+renderByTitle.addEventListener("input", filterOutByLetters)
+
+function filterOutByLetters(){
+  let arr1;
+  let inputs = renderByTitle.value;
+  let nReg = new RegExp(inputs, "i")
+  filterSearch = bookmark.filter(t => nReg.test(t.title))
+ renderData(filterSearch)
+}
 
 addBtn.addEventListener("click", () => {
   form.classList.remove("hidden");
@@ -99,8 +122,6 @@ function renderTags() {
 
   checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", () => {
-      console.log("Checkbox changed:", checkbox.value);
-
       if (checkbox.checked) {
         renderedTags.push(checkbox.value);
       } else {
@@ -210,16 +231,14 @@ function counter(id) {
   t.visited++;
   data();
   renderData(bookmark);
+  mostVisited()
 }
 function renderData(bookmark) {
   let container = document.getElementById("book_container");
-  let filtered =
-    archivedItems == true
-      ? bookmark.filter((t) => t.archived == true)
-      : bookmark.filter((t) => t.archived == false);
+  let finalList = archivedItems == true ? bookmark.filter((t) => t.archived === true): bookmark.filter((t) => t.archived === false);
   let title = document.getElementById("ts");
   title.innerHTML = archivedItems == true ? "All Archived" : "All Bookmarks";
-  container.innerHTML = filtered
+  container.innerHTML = finalList
     .map(
       (t) => ` 
         <div class="bookmarks max-w-[320px] w-[100%] flex  flex-col justify-evenly mt-10 space-y-6">
@@ -314,7 +333,7 @@ function renderData(bookmark) {
   if (bookmark.length == 0) {
     container.innerHTML = `<p class="text-center inline-block m-auto text-2xl text-gray-400">No bookmark is saved</p>`;
   }
-  if(archivedItems && filtered){
+  if(archivedItems && finalList.length == 0){
     container.innerHTML = `No archived bookmarks!`
   }
   // loadActiveTags()
@@ -348,15 +367,16 @@ if(t.pinned){
 
   renderPinItems();
 }
+
 function renderPinItems(){
   bookmark.sort((a, b) => {
-    if(a.pinned && !b.pinned){
+    if(a.pinned != b.pinned){
       return b.pinned - a.pinned;
     }
     if(a.dateAt && b.dateAt){
       return b.dateAt - a.dateAt;
     }
-    return a.id - b.id
+    return b.id - a.id;
   })
   renderData(bookmark);
 }
@@ -367,11 +387,12 @@ function archivedItem(id) {
   data();
   renderData(bookmark);
 }
-archivedBtn.addEventListener("click", () => {
-  // let allTab = document.querySelectorAll("[data-active]");
-  // let currentTab = document.querySelector("[data-active='true']");
-  // let index = Array.from(allTab).indexOf(currentTab);
 
+let toggleBtn = document.querySelectorAll("[data-active]")
+archivedBtn.addEventListener("click", () => {
+  
+  unArchivedBtn.classList.remove("bg-[#ccdedc]")
+  archivedBtn.classList.add("bg-[#ccdedc]")
   archivedItems = true;
   activeTags = {};
   data();
@@ -379,6 +400,9 @@ archivedBtn.addEventListener("click", () => {
 });
 
 unArchivedBtn.addEventListener("click", () => {
+
+    unArchivedBtn.classList.add("bg-[#ccdedc]")
+  archivedBtn.classList.remove("bg-[#ccdedc]")  
   archivedItems = false;
   activeTags = {};
   data();
@@ -392,6 +416,7 @@ function delItem(id) {
   renderTags();
   data();
   renderData(bookmark);
+  renderPinItems()
 }
 
 function saveData(id) {
@@ -453,6 +478,7 @@ function saveData(id) {
   form.classList.add("hidden");
   form.classList.remove("flex");
   orginalForm.reset();
+  renderPinItems()
 }
 
 function editItem(id) {
@@ -504,3 +530,4 @@ const fetchLink = async () => {
 };
 
 renderData(bookmark);
+renderPinItems()
