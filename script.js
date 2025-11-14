@@ -44,7 +44,7 @@ menu_items.addEventListener("click", (e) => {
   }
 })
 
-// renderData(bookmark);
+
 // for all event listener buttons
 sortBtn.addEventListener("click", () => {
   if (sortList.classList.contains("hidden")) {
@@ -59,11 +59,18 @@ sortBtn.addEventListener("click", () => {
 renderByTitle.addEventListener("input", filterOutByLetters)
 
 function filterOutByLetters(){
+  let container = document.getElementById("book_container");
   let arr1;
   let inputs = renderByTitle.value;
   let nReg = new RegExp(inputs, "i")
   filterSearch = bookmark.filter(t => nReg.test(t.title))
- renderData(filterSearch)
+  if(filterSearch.length == 0){
+    container.innerHTML = `<p class="text-gray-400 text-xl" >"${inputs}" not found</p>`;
+    return
+  } else{
+
+    renderData(filterSearch)
+  }
 }
 
 addBtn.addEventListener("click", () => {
@@ -184,6 +191,7 @@ function recentlyVisited() {
     });
     renderData(sortThroughTime);
   }
+    renderPinItems();
 }
 function loadActiveTags() {
   bookmark.forEach((bookmark) => {
@@ -232,6 +240,7 @@ function counter(id) {
   data();
   renderData(bookmark);
   mostVisited()
+  renderPinItems();
 }
 function renderData(bookmark) {
   let container = document.getElementById("book_container");

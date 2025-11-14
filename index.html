@@ -120,21 +120,22 @@
     </div>
 
 
-    <div class="md:ml-[250px] p-4 bg-white flex justify-between items-center">
-        <div class="flex gap-2 justify-center items-center">
-            <div class="inline-block md:hidden"><i class="fa-solid fa-bars text-3xl" id="toggle_sidebar"></i></div>
-            <div class="search_box relative">
-                <input
-                    class="border-2 indent-4 border-solid px-4 text-[#8C999A] py-1 text-[14px] placeholder-[#8693a8] focus:outline-[#c1ded3] rounded-xl border-[#E0E0E0]"
-                    placeholder="Search by title..." id="renderByTitle" type="text">
-                <i class=" absolute left-2 top-[50%] translate-y-[-50%] text-[#E0E0E0] fa-solid fa-magnifying-glass"></i>
+    <div class="sticky z-[10] top-0">
+        <div class="md:ml-[250px] p-4 bg-white flex justify-between items-center">
+            <div class="flex gap-2 justify-center items-center">
+                <div class="inline-block md:hidden"><i class="fa-solid fa-bars text-3xl" id="toggle_sidebar"></i></div>
+                <div class="search_box relative">
+                    <input
+                        class="border-2 indent-4 border-solid px-4 text-[#8C999A] py-1 text-[14px] placeholder-[#8693a8] focus:outline-[#c1ded3] rounded-xl border-[#E0E0E0]"
+                        placeholder="Search by title..." id="renderByTitle" type="text">
+                    <i class=" absolute left-2 top-[50%] translate-y-[-50%] text-[#E0E0E0] fa-solid fa-magnifying-glass"></i>
+                </div>
             </div>
-        </div>
-        <div id="addBtn" class="flex gap-2 items-center justify-center">
-            <button class="bg-[#3F7B70] p-2 rounded-md text-[#F1F6F5] cursor-pointer"><i class="fa-solid fa-plus"></i>
-                <span class="hidden md:inline-block">Add Bookmark</span>
-            </button>
-
+            <div id="addBtn" class="flex gap-2 items-center justify-center">
+                <button class="bg-[#3F7B70] p-2 rounded-md text-[#F1F6F5] cursor-pointer"><i class="fa-solid fa-plus"></i>
+                    <span class="hidden md:inline-block">Add Bookmark</span>
+                </button>
+            </div>
         </div>
     </div>
     <div class="md:ml-[250px] p-4" data-page="home">
@@ -174,6 +175,7 @@
                         <span id="loader" class="absolute hidden right-[10px] top-[25px]"><span class="loader inline-block"></span></span>
                 </div>
                 <textarea name="aiInput" placeholder="Description" class="resize-none h-[6lh] box-border border-2  border-solid px-4 text-[white] py-1 text-[14px] placeholder-[white] focus:outline-[#c1ded3] rounded-xl border-[#E0E0E0]" id="aiInput"></textarea>
+                
                 <div class="tag flex flex-wrap shrink-0 gap-2 p-3 rounded-xl bg-[#d0d4db29]" id="tag"></div>
                  <input type="text" id="tagInputer" placeholder="Hit Enter to add tags"
                     class="border-2 indent-1 border-solid px-4 text-[white] py-1 text-[14px] placeholder-[white] focus:outline-[#c1ded3] rounded-xl border-[#E0E0E0]"
