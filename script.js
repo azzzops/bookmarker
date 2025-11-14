@@ -505,13 +505,14 @@ userInput.addEventListener("change", () => {
   fetchLink();
 });
 
-
+let loader = document.getElementById("loader");
 let url_1 = "https://api.linkpreview.net";
 let apiKey = "4afde1e9975e407bb5df0ad342434f43";
 let GEMINI_KEY = "AIzaSyDkUOTKYXtSL8ozCa1g6Vp4qOh7njHfDxU";
 const fetchLink = async () => {
   console.log(searchingUrl);
   try {
+    loader.classList.remove("hidden")
     let res = await fetch(url_1, {
       method: "POST",
       headers: {
@@ -526,6 +527,8 @@ const fetchLink = async () => {
     description.value = feedingData.description;
   } catch (err) {
     console.log(err);
+  } finally{
+    loader.classList.add("hidden")
   }
 };
 

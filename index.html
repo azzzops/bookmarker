@@ -61,6 +61,37 @@
         input[type = "checkbox"]{
             accent-color: #8C999A;
         }
+        .loader {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        position: relative;
+        animation: rotate 1s linear infinite
+      }
+      .loader::before , .loader::after {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        inset: 0px;
+        border-radius: 50%;
+        border: 2px solid #FFF;
+        animation: prixClipFix 2s linear infinite ;
+      }
+      .loader::after{
+        transform: rotate3d(90, 90, 0, 180deg );
+        border-color: #292e26;
+      }
+
+      @keyframes rotate {
+        0%   {transform: rotate(0deg)}
+        100%   {transform: rotate(360deg)}
+      }
+
+      @keyframes prixClipFix {
+          0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+          50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+          75%, 100%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+      }
     </style>
 </head>
 
@@ -134,9 +165,14 @@
 
     <div id="aiForm" class="fixed hidden justify-center items-center z-20 inset-0 bg-[#000000af] backdrop-blur-sm">
             <form id="orgForm" class="flex flex-col gap-4 max-w-[320px] w-[100%]">
-                <input type="text" placeholder="Input website link and hit enter"
-                    class="border-2 indent-1 border-solid px-4 text-[white] py-1 text-[14px] placeholder-[white] focus:outline-[#c1ded3] rounded-xl border-[#E0E0E0]"
-                    name="link" id="link">
+                <h1 class="text-2xl text-white">Add a new Bookmark</h1>
+                <div class="grid relative">
+                    <label class="text-sm text-white" for="link">Enter a URL for Instant Preview</label>
+                    <input type="text" placeholder="Input website link and hit enter"
+                        class="border-2 indent-1 border-solid px-4 text-[white] py-1 text-[14px] placeholder-[white] focus:outline-[#c1ded3] rounded-xl border-[#E0E0E0]"
+                        name="link" id="link">
+                        <span id="loader" class="absolute hidden right-[10px] top-[25px]"><span class="loader inline-block"></span></span>
+                </div>
                 <textarea name="aiInput" placeholder="Description" class="resize-none h-[6lh] box-border border-2  border-solid px-4 text-[white] py-1 text-[14px] placeholder-[white] focus:outline-[#c1ded3] rounded-xl border-[#E0E0E0]" id="aiInput"></textarea>
                 <div class="tag flex flex-wrap shrink-0 gap-2 p-3 rounded-xl bg-[#d0d4db29]" id="tag"></div>
                  <input type="text" id="tagInputer" placeholder="Hit Enter to add tags"
